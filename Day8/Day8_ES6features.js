@@ -82,9 +82,3 @@ console.log(sumUp(2, 3, 4, 6));
 
     console.log(person)
 
-// Feature Request:
-// 1. Template Literals Script: Write a script that demonstrates the use of template literals to create and log strings with embedded variables and multi-line strings.
-// 2. Destructuring Script: Create a script that uses array and object destructuring to extract values and log them.
-// 3. Spread and Rest Operators Script: Write a script that demonstrates the use of the spread operator to combine arrays and the rest operator to handle multiple function arguments. 4.
-// Default Parameters Script: Create a script that defines a function with default parameters and logs the results of calling it with different arguments.
-// 5. Enhanced Object Literals Script: Write a serint that uses enhanced object literals to create and log an object with methods and computed property namos
