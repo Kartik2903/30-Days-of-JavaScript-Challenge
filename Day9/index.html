@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOM learning</title>
+    <style>
+        .bg{
+            background-color: #212121;
+            color: #f0f0f0ff;
+        }
+    </style>
+</head>
+<body class="bg">
+    <div class="first" style="height:200px; width: 100%; margin:auto; align-items:center;background-image: url('https://plus.unsplash.com/premium_photo-1721858124916-c304fc371931?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwyfHx8ZW58MHx8fHx8');
+    background-size:cover; background-position: center; background-repeat: no-repeat;">
+        <h1 id="title" class="heading">DOM Manipulation in 30 Days JavaScript Challenge</h1>
+        <p>Lorem ipsum dolor sit amet.</p>
+    </div>
+
+        <p id ="eventpara">Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni saepe possimus nemo eos fugit ipsam cumque, reprehenderit minima et voluptates.</p>
+    <script>
+        // Day 9: DOM Manipulation
+// Tasks/Activities:
+
+// Activity 1: Selecting and Manipulating Elements
+// • Task 1: Select an HTML element by its ID and change its text content. 
+    let title = document.getElementById('title');
+    title.innerText = "30 Days JavaScript Challenge";
+
+//• Task 2: Select an HTML element by its class and change its background color.
+    let changeColor = document.getElementsByClassName('first')[0] //className has a html collection which does not have any looping property in its prototype. For that, we can also convert it into an array using 'Array.from(<htmlcollection>)'
+
+    changeColor.style.backgroundColor = '#141833';
+    
+    const heading = document.getElementsByClassName('heading')
+    const headingchangedtoArray = Array.from(heading) //selecting element by className and converting it to array
+
+    headingchangedtoArray.forEach((e) => {e.style.color = 'red'})
+
+// Activity 2: Creating and Appending Elements
+// • Tack 3: Create a new div element with some text content and append it to the body.
+    let div = document.createElement('div')
+    div.setAttribute('id','one')
+    div.innerText = "This div is powered by JavaScript."
+    div.style.backgroundColor = "#e0008e"
+    div.style.border = '5px solid red'
+    //another way to add text
+    // const addtext = document.createTextNode("This div is powered by JavaScript.")
+    // div.appendChild(addtext)
+
+    document.body.appendChild(div) //this is necessary to show the result on the screen
+
+// • Task 4: Create a new li element and add it to an existing ul list.
+    let createul = document.createElement('ul')
+    div.appendChild(createul)
+    
+    function addli(data){
+        let newli = document.createElement('li')
+        newli.appendChild(document.createTextNode(data))
+        createul.appendChild(newli)
+    }
+
+    addli('Python')
+    addli('JavaScript')
+    addli('C++')
+    addli('Swift')
+
+// Activity 3: Removing Elements
+// • Task 5: Select an HTML element and remove it from the DOM.
+    let para = document.querySelector('p')
+    para.remove()
+
+// • Task 6: Remove the last child of a specific HTML element.
+    let lastli = document.querySelector("li:last-child")
+    lastli.remove()
+
+// Activity 4: Modifying Attributes and Classes
+// • Task 7: Select an HTML element and change one of its attributes (e.g., src of an img tag).
+    changeColor.setAttribute("style","height:200px; width: 100%; margin:auto; align-items:center;background-image: url('https://plus.unsplash.com/premium_photo-1672855635926-c0c4c0483bf6?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTd8fGJlYXV0aWZ1bCUyMGxhbmRzY2FwZXxlbnwwfHwwfHx8MA%3D%3D');background-size:cover; background-position: center; background-repeat: no-repeat;")
+
+// Task 8: Add and remove a CSS class to/from an HTML element.
+    changeColor.setAttribute('class','first main')
+    title.removeAttribute('class')
+
+// Activity 5: Event Handling
+// • Task 9: Add a click event listener to a button that changes the text content of a paragraph.
+    let button = document.createElement('button')
+    button.innerText = 'Change Content'
+    document.body.append(button)
+    let changeParaContent = document.getElementById('eventpara')
+
+    button.addEventListener('click',(e) =>{
+        changeParaContent.textContent = 'Snap!! The button changed the content in this paragraph😱';
+    })
+
+
+// Task 10: Add a mouseover event listener to an element that changes its border color.
+    div.addEventListener('mouseover',(e)=>{
+        div.style.borderColor = 'white';
+    })
+    div.addEventListener('mouseout',(e)=>{
+        div.style.borderColor = 'red';
+    })
+
+
+// Feature Request:
+// 1. Text Content Manipulation Script: Write a script that selects an HTML element by its ID and changes its text content. (Done)
+// 2. Element Creation Script: Create a script that demonstrates creating a new div element and appending it to the body.(Done)
+// 3. Element Removal Script: Write a script that selects an HTML element and removes it from the DOM (Done)
+// 4. Attribute Modification Script: Create a script that changes the attributes of an HTML element.(Done)
+// 5. Event Handling Script: Write a script that adds event listeners to HTML elements to change their content or style based on user interactions.(Done)
+    </script>
+</body>
+</html>
