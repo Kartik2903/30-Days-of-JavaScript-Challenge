@@ -71,96 +71,158 @@ setInterval(function(){
 
 ## Project 4
 ```javascript
-html {
-  font-family: sans-serif;
+let randomNumber = parseInt(Math.random() * 100 + 1); //generating a random number
+const submit = document.querySelector('#subt'); 
+const userInput = document.querySelector('#guessField');
+const prevGuessBox = document.querySelector('.guesses');
+const remainingGuesses = document.querySelector('.lastResult');
+const lowOrHi = document.querySelector('.lowOrHi');
+const resultParas = document.querySelector('.resultParas');
+
+const p = document.createElement('p');
+
+let prevGuess = [];
+let numGuess = 1;
+
+let playGame = true;
+
+if (playGame) {
+  submit.addEventListener('click', function (e) {
+    e.preventDefault();
+    const guess = parseInt(userInput.value);
+    console.log(guess);
+    validateGuess(guess);
+  });
 }
 
-body {
-  width: 300px;
-  max-width: 750px;
-  min-width: 480px;
-  margin: 0 auto;
-  background-color: #212121;
+function validateGuess(guess) {
+  if (isNaN(guess)) {
+    alert('Please enter a valid number');
+  } else if (guess < 1) {
+    alert('Please enter a number more than 1');
+  } else if (guess > 100) {
+    alert('Please enter a number less than 100');
+  } else {
+    prevGuess.push(guess);
+    if (numGuess === 10) {
+      displayGuess(guess);
+      showmsg(`Game Over. Random number was ${randomNumber}`);
+      endGame();
+    } else {
+      displayGuess(guess);
+      checkGuess(guess);
+    }
+  }
 }
 
-.lastResult {
-  color: white;
-  padding: 7px;
+function checkGuess(guess) {
+  if (guess === randomNumber) {
+    showmsg(`Congratulations! You guessed it right!🥳`);
+    endGame();
+  } else if (guess < randomNumber) {
+    showmsg(`Number is TOOO low`);
+  } else if (guess > randomNumber) {
+    showmsg(`Number is TOOO High`);
+  }
 }
 
-.guesses {
-  color: white;
-  padding: 7px;
+function displayGuess(guess) {
+  userInput.value = '';
+  prevGuessBox.innerHTML = prevGuess;
+  numGuess++;
+  remainingGuesses.innerHTML = `${11 - numGuess} `;
 }
 
-button {
-  background-color: #141414;
-  color: #fff;
-  width: 250px;
-  height: 50px;
-  border-radius: 25px;
-  font-size: 30px;
-  border-style: none;
-  margin-top: 30px;
-  /* margin-left: 50px; */
+function showmsg(message) {
+  lowOrHi.innerHTML = `<h2>${message}</h2>`;
 }
 
-#subt {
-  background-color: #161616;
-  color: #ffffff;
-  width: 200px;
-  height: 50px;
-  border-radius: 10px;
-  font-size: 20px;
-  border-style: none;
-  margin-top: 50px;
-  /* margin-left: 75px; */
+function endGame() {
+  playGame = false;
+  userInput.value = '';
+  userInput.setAttribute('disabled', '');
+  userInput.setAttribute('cursor', 'none');
+  submit.setAttribute('disabled','')
+
+  p.classList.add('button');
+  p.innerHTML = `<h3 id="newGame">Play Again?</h3>`;
+  resultParas.appendChild(p);
+  window.scrollTo(0, document.body.scrollHeight);
+  playAgain();
 }
 
-#guessField {
-  color: #000;
-  width: 250px;
-  height: 50px;
-  font-size: 30px;
-  border-style: none;
-  margin-top: 25px;
+function playAgain() {
+  const newGameButton = document.querySelector('#newGame');
+  newGameButton.addEventListener('click', function (e) {
+    randomNumber = parseInt(Math.random() * 100 + 1);
+    prevGuess = [];
+    numGuess = 1;
+    prevGuessBox.innerHTML = '';
+    remainingGuesses.innerHTML = `${11 - numGuess} `;
+    userInput.removeAttribute('disabled');
+    userInput.removeAttribute('cursor');
+    submit.removeAttribute('disabled');
+    resultParas.removeChild(p);
 
-  /* margin-left: 50px; */
-  border: 5px solid #6c6d6d;
-  text-align: center;
+    playGame = true;
+  });
 }
 
-#guess {
-  font-size: 55px;
-  /* margin-left: 90px; */
-  margin-top: 120px;
-  color: #fff;
-}
+```
 
-.guesses {
-  background-color: #7a7a7a;
-}
+## Project 5
+```javascript
+let insert = document.getElementById('insert');
 
-#wrapper {
-  box-sizing: border-box;
-  text-align: center;
-  width: 450px;
-  height: 550px;
-  background-color: #474747;
-  color: #fff;
-  font-size: 25px;
-}
+window.addEventListener('keydown', (e) => {
+  insert.innerHTML = `
+  <table>
+  <tr>
+    <th>Key</th>
+    <th>KeyCode</th>
+    <th>Code</th>
+  </tr>
+  <tr>
+    <td>${e.key}</td>
+    <td>${e.keyCode}</td>
+    <td>${e.code}</td>
+  </tr>
+</table>
+  `;
+});
 
-h1 {
-  background-color: #161616;
-  color: #fff;
-  text-align: center;
-}
+```
 
-p {
-  font-size: 16px;
-  text-align: center;
-  cursor:pointer
-}
+## Project 6
+```javascript
+//generating a random color
+const randomColor = function () {
+  const hex = '0123456789ABCDEF';
+  let color = '#';
+  for (let pos = 0; pos < 6; pos++) {
+    color += hex[Math.floor(Math.random() * 16)];
+  }
+  return color;
+};
+
+let intervalID;
+const startChangingColor = () => {
+  if (!intervalID) {
+    intervalID = setInterval(changeBGColor, 1000);
+  }
+
+  function changeBGColor() {
+    document.body.style.backgroundColor = randomColor();
+  }
+};
+
+const stopChangingColor = () => {
+  clearInterval(intervalID);
+  intervalID = null;
+};
+
+document.querySelector('#start').addEventListener('click', startChangingColor);
+
+document.querySelector('#stop').addEventListener('click', stopChangingColor);
 
 ```
