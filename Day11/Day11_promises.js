@@ -128,7 +128,6 @@ Promise.all([promiseSample1,promiseSample2,promiseSample3])
 Promise.race([promiseSample1,promiseSample2,promiseSample3])
 .then((value)=>console.log(value))
 
-
 // Feature Request:
 // 1. Promise Creation Script: Write a script that demonstrates creating and handling promises, including both resolved and rejected states.
 // 2. Promise Chaining Script: Create a script that chains multiple promises and logs messages in a specific sequence.
