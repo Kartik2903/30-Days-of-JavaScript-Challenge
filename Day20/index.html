@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Local and Session Storage</title>
+</head>
+<body>
+    <h1>Local Storage</h1>
+    <h2>Save String Value to LocalStorage</h2>
+    <button onclick="saveStringToLocalStorage()">Save String</button>
+    <button onclick="retrieveStringFromLocalStorage()">Retrieve String</button>
+    
+    <h2>Save Object to Local Storage</h2>
+    <button onclick="saveObjToLocalStorage()">Save Object</button>
+    <button onclick="retrieveObjFromLocalStorage()">Retrieve Object</button>
+
+    <h2>Form to save user input in Local Storage</h2>
+    <form id="userData">
+        <label for="name">Name</label>
+        <input type="text" id="name" required><br>
+
+        <label for="email">Email</label>
+        <input type="email" id="mail" required><br>
+
+        <input type="submit">
+    </form>
+    <br>
+    <button onclick="removeFromLocalStorage()">Remove Item from Local Storage</button>
+
+
+    <h1>Session Storage</h1>
+    <h2>Save String Value to Session Storage</h2>
+    <button onclick="saveStringToSessionStorage()">Save String</button>
+    <button onclick="retrieveStringFromSessionStorage()">Retrieve String</button>
+
+    <h2>Save Object to Session Storage</h2>
+    <button onclick="saveObjToSessionStorage()">Save Object</button>
+    <button onclick="retrieveObjFromSessionStorage()">Retrieve Object</button>
+
+    <h2>Form to save user input in Session Storage</h2>
+    <form id="sessionData">
+        <label for="name">Name</label>
+        <input type="text" id="Sessionname" required><br>
+        <label for="email">Email</label>
+        <input type="email" id="Sessionmail" required><br>
+
+        <input type="submit">
+    </form>
+    <br>
+    <button onclick="removeFromSessionStorage()">Remove Item from Session Storage</button>
+
+
+    <h1>Comparing LocalStorage and SessionStorage</h1>
+    <h2>Save and Retrieve</h2>
+    <button onclick="storeinbothmechnaisms()">Save and retrieve</button><br>
+    <br>
+    <button onclick="clearBothStorages()"><h2>Clear all storage</h2></button>
+
+    <script src="localandsessionstorage.js"></script>
+    <script>
+        document.getElementById("userData").addEventListener("submit",saveFormDataToLocalStorage);
+        document.getElementById("sessionData").addEventListener("submit", saveFormDataToSessionStorage);
+    </script>
+</body>
+</html>
