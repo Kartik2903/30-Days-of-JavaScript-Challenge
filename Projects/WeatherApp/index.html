@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="card">
+        <h1>Weather App</h1>
+
+        <div class="search">
+            <input id='city' type="text" name="city" placeholder="Enter a City" spellcheck="false"> <button onclick="getWeather()"><img src="images/magnifying-glass-1976105_1280.png" alt="search"></button>
+        </div>
+        <div class="weather">
+            <img alt="weather-icon" id="weather-icon">
+            <h1 class="temp"></h1>
+            <h2 class="weather-info"></h2>
+            <h3 id="forecast-title">Next 5 days Forecast</h3>
+            <div class="daily-forecast"></div>
+        </div>
+    </div>  
+    <script>
+        const apikey = "b7c77c366ef254f52e1309415e31aff9"
+        const input = document.getElementById('city')
+        input.addEventListener('keydown',function(event) {
+                if(event.key === 'Enter'){
+                    getWeather()
+                }
+            })
+        
+        async function getWeather(){
+            const city = input.value
+
+            
+            if(!city){
+                alert("Please enter a city.")
+            }
+
+            const currentWeatherUrl= `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apikey}&units=metric`
+
+            const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apikey}&units=metric`
+            
+            try{
+                const response = await fetch(currentWeatherUrl)
+                const data = await response.json()
+                
+                displayWeather(data)
+                
+                if(data.cod !== '404'){
+                    const forecast= await fetch(forecastUrl)
+                    const forecastData = await forecast.json()
+
+
+                    const currentHourUTC = new Date().getUTCHours()
+                    const fiveDayForecast= forecastData.list.filter(item => {
+                    const forecastHourUTC = new Date(item.dt * 1000).getUTCHours();
+                    return Math.abs(forecastHourUTC - currentHourUTC) <= 1;
+                    })
+
+                    if (fiveDayForecast.length > 0) {
+                displaydailyForecast(fiveDayForecast);
+            } else {
+                console.log("No forecast data found for the current day.");
+                alert("No forecast available for the current day.");
+            }
+                }
+            } catch(error){
+                console.log('Error fetching data', error);
+                alert('Error fetching the data, please try again later.')
+                // document.querySelector('.temp').innerHTML = '';
+                // getElementsByClassName('weather-info')[0].innerHTML = 'Error fetching data, check city again.'
+                // document.getElementById('weather-icon').style.display = 'none'
+                // document.querySelector('.daily-forecast').style.display= 'none';
+            }
+        }
+
+        function displayWeather(data){
+            console.log(data);
+            const weatherIcon = document.getElementById('weather-icon')
+            const temperature = document.querySelector('.temp')
+            const weatherInfo = document.querySelector('.weather-info')
+            if(data.cod === '404'){
+                weatherInfo.innerHTML= `<p>${data.message}</p>`
+                weatherIcon.style.display = 'none'
+                temperature.innerHTML= ''
+                document.querySelector('.daily-forecast').style.display = 'none'
+                document.getElementById('forecast-title').style.display = 'none'
+            }
+            else{
+                temperature.innerHTML = `<h2>${Math.floor(data.main.temp)}°C</h2>`
+                weatherInfo.innerHTML = `
+                <p>${data.name},${data.sys.country}</p>
+                <p>${data.weather[0].description}</p>
+                `
+                weatherIcon.src = `https://openweathermap.org/img/wn/${data.weather[0].icon}@4x.png`
+
+                weatherIcon.alt = data.weather[0].description
+                
+                showimage()
+            }
+
+        }          
+
+        function displaydailyForecast(forecastData){
+            console.log("5day",forecastData);
+            
+            const dailyForecast= document.querySelector('.daily-forecast')
+
+            forecastData.forEach(item => {
+                const dateTime = new Date(item.dt * 1000)
+                const day = dateTime.toLocaleDateString(undefined, {weekday:'short'}) //Mon
+                const hour = dateTime.getHours()
+                const temperature = Math.round(item.main.temp)
+                const iconUrl = `https://openweathermap.org/img/wn/${item.weather[0].icon}@4x.png`
+                
+                const dailyItemHTML = `
+                    <div class = "daily-item">
+                    <span>${day},${hour}:00</span>
+                    <img src="${iconUrl}" alt="daily Weather">
+                    <span>${temperature}°C</span>
+                `
+
+                dailyForecast.innerHTML += dailyItemHTML
+            });
+        }
+
+        function showimage(){
+            const weatherIcon = document.getElementById("weather-icon")
+            const dailyForecast = document.querySelector('.daily-forecast')
+            weatherIcon.style.display = 'block'
+            dailyForecast.style.display = 'flex'
+            document.getElementById('forecast-title').style.display = 'block'
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,108 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: sans-serif;
+}
+
+body{
+    background-color: #222;
+}
+
+h1{
+    margin-bottom: 10px;
+}
+.card{
+    width: 90%;
+    max-width: 470px;
+    color: #fff;
+    background-color: #8c52ff;
+    margin: 100px auto 0;
+    padding: 40px 15px ;
+    text-align: center;
+    border-radius: 20px;
+}
+
+.search{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.search input{
+    border: 0;
+    outline: 0;
+    color: #555;
+    background-color: #ebfffc;
+    border-radius: 30px;
+    flex: 1;
+    padding: 10px 25px;
+    height: 40px;
+    width: 80%;
+    margin-right: 10px;
+    font-size: 18px;
+}
+.search input:hover{
+    background-color: #eefffce7;
+}
+
+.search button{
+    border: 0;
+    outline:0;
+    border-radius: 50%;
+    height: 40px;
+    width: 40px;
+    cursor:pointer
+}
+.search button:hover{
+    background-color: #d0bee6;
+}
+
+.search img{
+    width: 20px;
+}
+
+.weather{
+    margin: 20px;
+}
+
+#weather-icon{
+    width: 200px;
+    height: 200px;
+    margin: 0 auto 5px;
+    display: none;
+}
+.weather-info{
+    font-weight:100;
+    margin-top: 10px;
+    margin-bottom: 50px;
+}
+
+.daily-forecast{
+    margin-top: 50px;
+    overflow-x: auto;
+    white-space: nowrap;
+    display: flex;
+    justify-content: space-between;
+}
+
+
+.daily-item{
+    flex: 0 0 auto;
+    width: 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-right: 10px;
+    margin-left: 10px;
+    color:white;
+}
+
+.daily-item img{
+    height: 80px;
+}
+
+.weather h3{
+    display:none;
+}
