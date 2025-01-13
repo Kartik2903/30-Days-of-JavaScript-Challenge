@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile Search App</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <main>
+      <h1>MOVIE SEARCH APP</h1>
+      <br>
+      <div class="search">
+            <input type="text" name="find" id="searchbox" spellcheck="false" role="combobox" placeholder="Enter movie name">
+            <button><img src="images/magnifying-glass-1976105_1280.png" alt="Search"></button>
+      </div>
+
+      <div class="row" id="movie-box"></div>
+    </main>
+    
+    <script>
+      const searchurl = "https://api.themoviedb.org/3/search/movie?&api_key=3ad5c9cba969a58e354a83fad3237ff5&query="
+
+      const imgpath = "https://image.tmdb.org/t/p/w500/"
+
+      const movieBox = document.querySelector("#movie-box")
+
+      const showmovies= async (api)=>{
+        const response = await fetch(api)
+        const data = await response.json()
+        const result = data.results
+        movieBox.innerHTML=''
+
+        if(result.length !== 0){
+
+          result.forEach(item => {
+            const img = imgpath + item.poster_path
+            const box = document.createElement('div')
+            box.classList.add("box")
+            box.innerHTML = `
+            <img id=poster src="${img}" alt="${item.title}">
+            <div class="overlay">
+              <div class="title">
+                <h2>${item.original_title}</h2>
+                        <span> ${parseFloat(item.vote_average.toFixed(1))}<span>
+              </div>
+                    <h3>Overview:</h3>
+                    <p> 
+                        ${item.overview}
+                    </p>
+                      <button class="more-info" data-api="${omdbpath}+${item.original_title.replace(/'/g, "\\'")}+${omdbapi}">More Info</button>
+                    
+
+                <!-- The Modal -->
+                <div id="myModal" class="modal">
+
+                  <!-- Modal content -->
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <span class="close">&times;</span>
+                      <h2></h2>
+                    </div>
+                    <div class="modal-body">
+                      <div class="loader" id="loader"></div>
+                      <div class="data"></div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            `
+            movieBox.appendChild(box)
+            });
+          }
+            else{
+              movieBox.innerHTML= `<h3> No results. Try searching something else.</h3>`
+            }
+      }
+
+      document.querySelector("#searchbox").addEventListener("keyup",function(event){
+        if(event.target.value !=''){
+          showmovies(searchurl+event.target.value)
+        }
+        else{
+          movieBox.innerHTML =''
+        }
+
+      })
+
+const omdbpath= 'https://www.omdbapi.com/?t='
+const omdbapi = '&apikey=c6e70c2d'
+
+
+document.addEventListener('DOMContentLoaded',()=>{
+const moreinfo= async (api)=>{
+  
+  let modal = document.getElementById('myModal')
+  let moreinfoButton = document.getElementById('more')
+  let closeButton = document.getElementsByClassName('close')[0]
+  let loader = document.getElementById('loader')
+  const modalheader = document.querySelector('.modal-header h2')
+  const modalbody = document.querySelector('.data')
+  console.log(modalbody);
+  
+  loader.style.display = "block";
+
+  // modal.style.display = "block";
+
+  const response = await fetch(api)
+  const data = await response.json() 
+
+  console.log(data.Title);
+  // console.log(modalheader);
+  // console.log(modalbody);
+
+  modal.style.display = "block";
+  modalbody.style.display = "none";
+  const loading= function() {
+    setTimeout(()=>{
+    loader.style.display = "none";
+    modalbody.style.display = "flex";
+  }, 1000)
+  }
+  loading();
+
+  //defining the content of the modal
+  modalheader.innerHTML= data.Title
+  modalbody.innerHTML= `
+  <img src="${data.Poster}" alt="${data.Title}">
+  <div>
+  <p><strong>Genre:</strong> ${data.Genre}</p>
+  <p><strong>Released:</strong> ${data.Released}</p>
+  <p><strong>IMDB Rating:</strong> ${data.imdbRating}</p>
+  <p><strong>Director:</strong> ${data.Director}</p>
+  <p><strong>Actors:</strong> ${data.Actors}</p>
+  <p><strong>Plot:</strong> ${data.Plot}</p>
+  <a class = "imdb" href="https://www.imdb.com/title/${data.imdbID}" target="_blank"><span>View on IMDB</span><img src="https://m.media-amazon.com/images/S/sash/mGkoj7mMfYpKOdk.png"></a>
+  </div>
+  `
+  
+  closeButton.onclick = ()=>{
+    modal.style.display= "none";
+  }
+
+  window.onclick= (event)=>{
+    if(event.target == modal){
+      modal.style.display="none";
+    }
+  };
+};
+
+document.addEventListener('click', (event)=>{
+  if(event.target.classList.contains('more-info')){
+    const api = event.target.getAttribute('data-api');
+    moreinfo(api);
+  }
+})
+
+})
+
+</script>
+
+</body>
+</html>
